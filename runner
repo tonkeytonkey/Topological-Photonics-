@@ -1,0 +1,42 @@
+
+runnumber=2
+dir="rodsweep"
+
+dir=${dir}${runnumber}
+
+split=20
+
+com=","
+par=")"
+quote="'"
+slash="/"
+txt=".txt"
+command="batchrunnerchern("
+#command="batchrunnercompare1("
+#command="batchrunnercompare2("
+echo ${command}
+log="log"
+command=${command}${quote}${dir}${quote}${com}${split}${com}
+
+rm ${dir} -r
+mkdir ${dir}
+
+log=${dir}${slash}${log}
+
+#we need to make individual folder for storing results of run
+
+
+for splitnum in $(seq 1 $split);
+do
+	
+	echo ${splitnum}
+	echo ${command}${splitnum}${par}
+	echo ${output}${splitnum}${txt}
+
+	nohup matlab -nojvm -nodesktop -nosplash -singleCompThread -nodisplay -r ${command}${splitnum}${par} > ${log}${splitnum}${txt} &
+
+	#sleep 3
+
+done
+
+
